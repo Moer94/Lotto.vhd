@@ -36,7 +36,7 @@ begin
 
 -- concurrent Signal Assignments:
 
-    slv_address_to_memory <= "00" & slv_index_location ; 
+    slv_address_to_memory <= "00" & std_logic_vector((unsigned(slv_index_location) - to_unsigned(1,3))) ; 
     sl_value_is_equal <= '1' when (slv_data_from_memory = slv_value_reg_int) else '0';
 
 end architecture a_checkingNumber;
