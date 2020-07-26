@@ -21,7 +21,7 @@ architecture a_my_lottery of e_my_lottery is
 component e_flipflop
 	   port ( sl_D, sl_Resetn, sl_Clock   : in   std_logic;
 			  sl_Q                 		  : out  std_logic);
-end component;
+end component ;
 
 component e_FSM is 
    port (
@@ -34,7 +34,7 @@ component e_FSM is
 		sl_won: out std_logic;
 		sl_move_next: out std_logic
 	); -- needs to be instatiated to key 0 in the mother entity for reset
-end component e_FSM;
+end component ;
 
 component e_memory_block is
 	port ( address    : in  std_logic_vector (4 downto 0);
@@ -54,7 +54,7 @@ component e_checkingNumber is
 		sl_value_is_equal: out std_logic;
 		sl_finished: in std_logic;
 		sl_load_values: in std_logic;
-        slv_manualinput_value : in std_logic_vector(4 downto 0); -- manualinput
+        slv_manualinput_value : in std_logic_vector(3 downto 0); -- manualinput
         slv_index_location: in std_logic_vector(2 downto 0)
 	);
 end component;
@@ -75,7 +75,7 @@ component e_7seg_display is
             slv_index            : in std_logic_vector(2 downto 0);
             slv_whole_lotteryinput: in std_logic_vector(0 to 19);
             slv_7seg             : out std_logic_vector(0 to 41) 	);
-end component e_7seg_display;
+end component;
 
 component e_modulo_counter_er is
 	generic( n: natural := 4; k: integer := 15);
@@ -84,7 +84,7 @@ component e_modulo_counter_er is
 			slv_Q:	    out     std_logic_vector(n-1 downto 0);
 			sl_rollover: out std_logic 
 			);
-end component e_modulo_counter_er;
+end component;
 
 signal slv_manualinput_value_int, slv_data_from_memory_int: std_logic_vector(3 downto 0);
 signal slv_address_int: std_logic_vector(4 downto 0);
@@ -185,13 +185,13 @@ I_slow_clock: e_modulo_counter_er
                     slv_Q		=>		open,
                     sl_rollover	=>		sl_one_sec_en_int
                 );
-p_mod_cnt: process(sl_clock_int, sl_resetn_int, sl_is_won_int)
+p_mod_cnt: process(CLOCK_50, sl_resetn_int, sl_is_won_int)
 
 begin 
 if sl_resetn_int ='0' then -- low active reset using key
      slv_led_on_off_int <= "0000000000"; 
 elsif (sl_is_won_int = '1') and ( sl_resetn_int = '1')  then 
-    if(rising_edge(sl_clock_int)) then
+    if(rising_edge(CLOCK_50)) then
         if(sl_enable_int ='1') then
         
             if slv_led_on_off_int = "0000000000" then 
